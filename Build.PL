@@ -1,0 +1,27 @@
+use strict;
+use warnings;
+use Module::Build;
+
+my $builder = Module::Build->new(
+    module_name         => 'Plack::Middleware::Debug::TraceENV',
+    license             => 'perl',
+    dist_author         => 'Dai Okabayashi <bayashi@cpan.org>',
+    dist_version_from   => 'lib/Plack/Middleware/Debug/TraceENV.pm',
+    build_requires      => {
+        'Test::More' => 0.88,
+        'Plack' => 0,
+        'HTTP::Request::Common' => 0,
+    },
+    requires => {
+        'Plack::Middleware::Debug' => 0,
+        'parent' => 0,
+    },
+    add_to_cleanup      => [ 'Plack-Middleware-Debug-TraceENV-*' ],
+    meta_merge     => {
+      resources => {
+        repository  => 'http://github.com/bayashi/Plack-Middleware-Debug-TraceENV'
+      }
+    },
+);
+
+$builder->create_build_script();
