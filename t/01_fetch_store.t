@@ -6,16 +6,16 @@ use Plack::Builder;
 use HTTP::Request::Common;
 use Test::More;
 
+# STORE & FETCH & panel
 {
     my $app = sub {
 
-        $ENV{TEST_TRACE_ENV} = 1
-            if !$ENV{TEST_TRACE_ENV} && !exists($ENV{TEST_TRACE_ENV});
+        $ENV{TEST_TRACE_ENV} = 7;
 
         return [
             200,
             ['Content-Type' => 'text/html'],
-            ['<html><body>fetch</body></html>']
+            ["<html><body><p>ENV:$ENV{TEST_TRACE_ENV}</p></body></html>"]
         ];
     };
 
@@ -38,14 +38,15 @@ use Test::More;
           qr{<small>F:\d+, S:\d+, E:\d+, D:\d+</small>},
           "counts on the Panel";
 
+        like $res->content, qr{<p>ENV:7</p>}, "set value";
+
         like $res->content, qr{<td>\d+: FETCH</td>}, "label of FETCH";
         like $res->content, qr{<td>\d+: STORE</td>}, "label of STORE";
-        like $res->content, qr{<td>\d+: EXISTS</td>}, "label of EXISTS";
+
         like $res->content,
           qr{<td>TEST_TRACE_ENV \[[^\]]+\]</td>},
           "Trace";
     };
-
 }
 
 done_testing;

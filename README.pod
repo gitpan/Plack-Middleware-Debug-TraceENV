@@ -33,6 +33,12 @@ Plack::Middleware::Debug::TraceENV documentation is available as in POD. So you 
 Plack::Middleware::Debug::TraceENV is hosted on github
 L<http://github.com/bayashi/Plack-Middleware-Debug-TraceENV>
 
+=begin html
+
+<a href="http://travis-ci.org/bayashi/Plack-Middleware-Debug-TraceENV"><img src="https://secure.travis-ci.org/bayashi/Plack-Middleware-Debug-TraceENV.png"/></a>
+
+=end html
+
 
 =head1 LICENSE
 

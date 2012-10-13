@@ -2,7 +2,7 @@ package Plack::Middleware::Debug::TraceENV;
 use strict;
 use warnings;
 use parent qw/Plack::Middleware::Debug::Base/;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub prepare_app {
     tie %ENV, 'Plack::Middleware::Debug::TraceENV';
@@ -39,18 +39,43 @@ sub TIEHASH {
 
 sub FETCH {
     _tracer('FETCH', $_[1], undef,  caller() );
+    $_[0]->{$_[1]};
 }
 
 sub STORE {
     _tracer('STORE', $_[1], $_[2],  caller() );
+    $_[0]->{$_[1]} = $_[2];
 }
 
 sub EXISTS {
     _tracer('EXISTS', $_[1], undef,  caller() );
+    return exists($_[0]->{$_[1]});
 }
 
 sub DELETE {
     _tracer('DELETE', $_[1], undef,  caller() );
+    delete $_[0]->{$_[1]};
+}
+
+sub CLEAR {
+    _tracer('CLEAR', undef, undef,  caller() );
+    %{$_[0]} = ();
+}
+
+sub SCALAR {
+    _tracer('SCALAR', undef, undef,  caller() );
+    scalar %{$_[0]};
+}
+
+sub FIRSTKEY {
+    _tracer('FIRSTKEY', undef, undef,  caller() );
+    my $a = scalar keys %{$_[0]};
+    each %{$_[0]};
+}
+
+sub NEXTKEY {
+    _tracer('NEXTKEY', undef, undef,  caller() );
+    each %{$_[0]};
 }
 
 sub _tracer {

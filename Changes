@@ -1,4 +1,8 @@
 Revision history for Perl extension Plack::Middleware::Debug::TraceENV
 
+0.02    12:45 2012/10/13
+        fixed return values.
+        added method(CLEAR, SCALAR, FIRSTKEY, NEXTKEY) and wrote tests.
+
 0.01    20:20 2012/10/07
         - original version
