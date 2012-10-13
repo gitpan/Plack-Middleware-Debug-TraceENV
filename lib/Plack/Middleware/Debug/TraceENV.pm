@@ -1,10 +1,25 @@
 package Plack::Middleware::Debug::TraceENV;
 use strict;
 use warnings;
+use Plack::Util::Accessor qw/method/;
 use parent qw/Plack::Middleware::Debug::Base/;
-our $VERSION = '0.02';
+our $VERSION = '0.03';
+
+my $ENABLE = +{};
 
 sub prepare_app {
+    my $self = shift;
+
+    if ( $self->method
+            && ref($self->method) eq 'ARRAY' && scalar(@{$self->method}) > 0 ) {
+        map { $ENABLE->{lc($_)} = 1; } @{$self->method};
+    }
+    else {
+        map { $ENABLE->{$_} = 1; } qw/
+            fetch store exists delete clear scalar firstkey nextkey
+        /;
+    }
+
     tie %ENV, 'Plack::Middleware::Debug::TraceENV';
 }
 
@@ -20,11 +35,10 @@ sub run {
         $panel->title('%ENV Tracer');
         $panel->nav_subtitle(
             sprintf(
-                "F:%d, S:%d, E:%d, D:%d",
-                $COUNT{FETCH}  || 0,
-                $COUNT{STORE}  || 0,
-                $COUNT{EXISTS} || 0,
-                $COUNT{DELETE} || 0,
+                "F:%s, S:%s, E:%s, D:%s",
+                map { $ENABLE->{$_} ? ($COUNT{uc($_)} || 0) : '-'; } qw/
+                    fetch store exists delete
+                /,
             )
         );
         $panel->content(
@@ -81,6 +95,9 @@ sub NEXTKEY {
 sub _tracer {
     my ($method, $key, $value,
             $package, $filename, $line) = @_;
+
+    return unless $ENABLE->{lc($method)};
+
     $key = '' if !defined $key;
     $key = "$key=$value" if defined $value;
     push @TRACE, "$$: $method" => "$key [$filename#$line]";
@@ -100,6 +117,7 @@ Plack::Middleware::Debug::TraceENV - debug panel for tracing %ENV
 
     use Plack::Builder;
     builder {
+      enable 'Debug';
       enable 'Debug::TraceENV';
       $app;
     };
@@ -108,6 +126,14 @@ Plack::Middleware::Debug::TraceENV - debug panel for tracing %ENV
 =head1 DESCRIPTION
 
 Plack::Middleware::Debug::TraceENV is debug panel for watching %ENV.
+
+
+=head1 OPTION
+
+If you use `method` option, you can enable methods only which you want(fetch, store, exists, delete, clear, scalar, firstkey or nextkey).
+
+    enable 'Debug::TraceENV',
+      method => [qw/store delete/]; # just enable STORE and DELETE methods
 
 
 =head1 METHOD
