@@ -13,8 +13,10 @@ my $builder = Module::Build->new(
         'HTTP::Request::Common' => 0,
     },
     requires => {
+        'perl' => '5.8.1',
         'Plack::Middleware::Debug' => 0,
         'parent' => 0,
+        'Plack::Util::Accessor' => 0,
     },
     add_to_cleanup      => [ 'Plack-Middleware-Debug-TraceENV-*' ],
     meta_merge     => {

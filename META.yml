@@ -17,11 +17,13 @@ name: Plack-Middleware-Debug-TraceENV
 provides:
   Plack::Middleware::Debug::TraceENV:
     file: lib/Plack/Middleware/Debug/TraceENV.pm
-    version: 0.03
+    version: 0.04
 requires:
   Plack::Middleware::Debug: 0
+  Plack::Util::Accessor: 0
   parent: 0
+  perl: v5.8.1
 resources:
   license: http://dev.perl.org/licenses/
   repository: http://github.com/bayashi/Plack-Middleware-Debug-TraceENV
-version: 0.03
+version: 0.04

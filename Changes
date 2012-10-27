@@ -1,11 +1,15 @@
 Revision history for Perl extension Plack::Middleware::Debug::TraceENV
 
-0.03    21:42 2012/10/13
+0.04    Sat Oct 27 22:38:00 JST 2012
+    [No CODE CHANGES]
+        - fixed for kwalitee
+
+0.03    Sat Oct 13 21:42:00 JST 2012
         NEW FEATURE: `method` option
 
-0.02    12:45 2012/10/13
+0.02    Sat Oct 13 12:45:00 JST 2012
         fixed return values.
         added method(CLEAR, SCALAR, FIRSTKEY, NEXTKEY) and wrote tests.
 
-0.01    20:20 2012/10/07
+0.01    Sun Oct  7 20:20:00 JST 2012
         - original version
