@@ -9,7 +9,8 @@ my $builder = Module::Build->new(
     dist_version_from   => 'lib/Plack/Middleware/Debug/TraceENV.pm',
     build_requires      => {
         'Test::More' => 0.88,
-        'Plack' => 0,
+        'Plack::Test' => 0,
+        'Plack::Builder' => 0,
         'HTTP::Request::Common' => 0,
     },
     requires => {

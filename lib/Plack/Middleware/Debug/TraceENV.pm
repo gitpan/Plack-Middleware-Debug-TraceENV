@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Plack::Util::Accessor qw/method/;
 use parent qw/Plack::Middleware::Debug::Base/;
-our $VERSION = '0.04';
+our $VERSION = '0.041';
 
 my $ENABLE = +{};
 
